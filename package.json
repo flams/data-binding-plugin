@@ -1,0 +1,40 @@
+{
+  "name": "data-binding-plugin",
+  "description": "The most powerful two way data-binding with virtualization. Highly optimized for performance and memory",
+  "version": "0.0.1",
+  "homepage": "https://github.com/flams/data-binding-plugin",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/flams/data-binding-plugin/master/LICENSE"
+    }
+  ],
+  "files": [
+    "LICENSE",
+    "index.js"
+  ],
+  "author": "Olivier Scherrer <pode.fr@gmail.com>",
+  "keywords": [
+    "data",
+    "binding",
+    "plugin",
+    "virtualization",
+    "memory",
+    "performance"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:flams/data-binding-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flams/data-binding-plugin/issues"
+  },
+  "scripts": {
+    "test": "jasmine-node test/"
+  },
+  "main": "index.js",
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}
