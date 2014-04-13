@@ -26,7 +26,7 @@ Require data-binding-plugin:
 ```js
 var DataBinding = require("data-binding-plugin");
 ```
-
+documentation is coming...
 
 LICENSE
 =======
