@@ -33,8 +33,15 @@
     "test": "jasmine-node test/"
   },
   "main": "index.js",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
+    "get-nodes": "0.0.1",
+    "get-dataset": "0.0.1",
+    "compare-numbers": "0.0.1",
+    "simple-loop": "0.0.2",
+    "nested-property": "0.0.2",
+    "watch-notify": "0.0.2",
+    "get-closest": "0.0.1",
+    "to-array": "~0.1.4"
   }
 }
