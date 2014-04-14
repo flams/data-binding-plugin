@@ -14,7 +14,6 @@
  */
 "use strict";
 
-
 var Observable = require("watch-notify"),
     compareNumbers = require("compare-numbers"),
     simpleLoop = require("simple-loop"),
@@ -327,7 +326,7 @@ module.exports = function BindPluginConstructor($model, $bindings) {
         this.create = function create(id) {
             if (_model.has(id)) {
                 var newNode = _node.cloneNode(true),
-                nodes = DomUtils.getNodes(newNode);
+                nodes = getNodes(newNode);
 
                 toArray(nodes).forEach(function (child) {
                     child.setAttribute("data-" + _plugins.name+"_id", id);
@@ -519,7 +518,7 @@ module.exports = function BindPluginConstructor($model, $bindings) {
                     .concat(extraParam))) {
                 // Execute the default one which is a simple assignation
                 //node[property] = get;
-                DomUtils.setAttribute(node, property, get);
+                setAttribute(node, property, get);
             }
         }
 
@@ -568,7 +567,7 @@ module.exports = function BindPluginConstructor($model, $bindings) {
     };
 
     this.getItemIndex = function getElementId(dom) {
-        var dataset = DomUtils.getDataset(dom);
+        var dataset = getDataset(dom);
 
         if (dataset && typeof dataset[this.plugins.name + "_id"] != "undefined") {
             return +dataset[this.plugins.name + "_id"];
@@ -663,5 +662,8 @@ module.exports = function BindPluginConstructor($model, $bindings) {
     // Inits the model
     this.setModel($model);
     // Inits bindings
-    this.addBindings($bindings);
+
+    if ($bindings) {
+        this.addBindings($bindings);
+    }
 };

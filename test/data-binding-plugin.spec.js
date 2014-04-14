@@ -69,7 +69,7 @@ describe("BindPluginBind", function () {
         model.set("content", "Olives is cool!");
 
         expect(dom.innerHTML).toBe("Olives is cool!");
-        expect(bindPlugin.observers.content).toBeInstanceOf(Array);
+        expect(Array.isArray(bindPlugin.observers.content)).toBe(true);
         expect(model.getValueObservable().hasObserver(bindPlugin.observers.content[0])).toBe(true);
 
         expect(DomUtils.setAttribute.wasCalled).toBe(true);
@@ -142,7 +142,6 @@ describe("BindPluginBindTheOtherWay", function () {
         expect(dom.addEventListener.mostRecentCall.args[0]).toBe("change");
         expect(dom.addEventListener.mostRecentCall.args[2]).toBe(true);
         func = dom.addEventListener.mostRecentCall.args[1];
-        expect(func).toBeInstanceOf(Function);
         dom.checked = true;
         func();
         expect(model.get("bool")).toBe(true);
@@ -266,27 +265,7 @@ describe("BindPluginItemRenderer", function () {
     });
 
     it("should provide an item renderer", function () {
-        expect(bindPlugin.ItemRenderer).toBeInstanceOf(Function);
-    });
-
-    it("should have the following API", function () {
-        var itemRenderer = new bindPlugin.ItemRenderer();
-        expect(itemRenderer.setRenderer).toBeInstanceOf(Function);
-        expect(itemRenderer.getRenderer).toBeInstanceOf(Function);
-        expect(itemRenderer.setRootNode).toBeInstanceOf(Function);
-        expect(itemRenderer.getRootNode).toBeInstanceOf(Function);
-        expect(itemRenderer.create).toBeInstanceOf(Function);
-        expect(itemRenderer.setPlugins).toBeInstanceOf(Function);
-        expect(itemRenderer.getPlugins).toBeInstanceOf(Function);
-        expect(itemRenderer.items).toBeInstanceOf(Object);
-        expect(itemRenderer.addItem).toBeInstanceOf(Function);
-        expect(itemRenderer.removeItem).toBeInstanceOf(Function);
-        expect(itemRenderer.render).toBeInstanceOf(Function);
-        expect(itemRenderer.getNextItem).toBeInstanceOf(Function);
-        expect(itemRenderer.getStart).toBeInstanceOf(Function);
-        expect(itemRenderer.getNb).toBeInstanceOf(Function);
-        expect(itemRenderer.setNb).toBeInstanceOf(Function);
-        expect(itemRenderer.setStart).toBeInstanceOf(Function);
+        expect(typeof bindPlugin.ItemRenderer).toBe("function");
     });
 
     it("should set the node to render", function () {
@@ -346,7 +325,7 @@ describe("BindPluginItemRenderer", function () {
         '<p><span>title:</span><span data-model="bind:innerHTML,title"></span></p>';
 
         node = itemRenderer.create(0);
-        expect(node).toBeInstanceOf(HTMLElement);
+        expect(node instanceof HTMLElement).toBe(true);
         expect(node.nodeName).toBe("DIV");
         expect(node.querySelectorAll("*").length).toBe(6);
 
@@ -430,7 +409,7 @@ describe("BindPluginItemRenderer", function () {
 
         rootNode.appendChild(dom);
         itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
-        expect(itemRenderer.items).toBeInstanceOf(Object);
+        expect(typeof itemRenderer.items).toBe("object");
     });
 
     it("should store created items in the store", function () {
@@ -903,8 +882,7 @@ describe("BindPluginForeachLimits", function () {
         bindPlugin.foreach(dom, "id", 2, 3);
         expect(bindPlugin.setItemRenderer.mostRecentCall.args[0]).toBe("id");
         itemRenderer = bindPlugin.setItemRenderer.mostRecentCall.args[1];
-        expect(itemRenderer).toBeInstanceOf(bindPlugin.ItemRenderer);
-        expect(bindPlugin.getItemRenderer).toBeInstanceOf(Function);
+        expect(itemRenderer instanceof bindPlugin.ItemRenderer).toBe(true);
         expect(bindPlugin.getItemRenderer("id")).toBe(itemRenderer);
     });
 
@@ -984,14 +962,9 @@ describe("ModelForm", function () {
         input.type = "text";
         input.name = "firstname";
         input.value = "olivier";
-        expect(bindPlugin.set).toBeInstanceOf(Function);
         expect(bindPlugin.set(document.createElement("input"))).toBe(false);
         expect(bindPlugin.set(input)).toBe(true);
         expect(model.get("firstname")).toBe("olivier");
-    });
-
-    it("should have a form function", function () {
-        expect(bindPlugin.form).toBeInstanceOf(Function);
     });
 
     it("should accept only form nodes", function () {
@@ -1023,7 +996,6 @@ describe("ModelForm", function () {
         bindPlugin.form(form);
         func = form.addEventListener.mostRecentCall.args[1];
 
-        expect(func).toBeInstanceOf(Function);
         func(event);
 
         expect(bindPlugin.set.wasCalled).toBe(true);
@@ -1047,14 +1019,6 @@ describe("BindPluginPlugins", function () {
         bindPlugin = new BindPlugin(model);
         bindPlugin.plugins = {}; bindPlugin.plugins.name = "model";
         dom = document.createElement("div");
-    });
-
-    it("should have the following methods", function () {
-        expect(bindPlugin.addBindings).toBeInstanceOf(Function);
-        expect(bindPlugin.getBinding).toBeInstanceOf(Function);
-        expect(bindPlugin.addBinding).toBeInstanceOf(Function);
-        expect(bindPlugin.hasBinding).toBeInstanceOf(Function);
-        expect(bindPlugin.execBinding).toBeInstanceOf(Function);
     });
 
     it("should add a new binding", function () {
