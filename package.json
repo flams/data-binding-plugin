@@ -36,7 +36,8 @@
   "devDependencies": {
     "observable-store": "0.0.3",
     "seam": "0.0.3",
-    "jasmine-node": "~1.14.3"
+    "jasmine-node": "~1.14.3",
+    "quick-dom": "0.0.1"
   },
   "dependencies": {
     "get-nodes": "0.0.1",

@@ -6,29 +6,16 @@
 * Copyright (c) 2014 Olivier Scherrer <pode.fr@gmail.com>
 */
 
+require("quick-dom");
+
 var BindPlugin = require("../index"),
 	Store = require("observable-store"),
 	Plugins = require("seam");
 
 describe("BindPluginTest", function () {
     it("should be a constructor function", function () {
-        expect(BindPlugin).toBeInstanceOf(Function);
+        expect(typeof BindPlugin).toBe("function");
     });
-
-    it("should have the following API", function () {
-        var bindPlugin = new BindPlugin();
-
-        expect(bindPlugin.bind).toBeInstanceOf(Function);
-        expect(bindPlugin.foreach).toBeInstanceOf(Function);
-        expect(bindPlugin.setModel).toBeInstanceOf(Function);
-        expect(bindPlugin.getModel).toBeInstanceOf(Function);
-        expect(bindPlugin.form).toBeInstanceOf(Function);
-        expect(bindPlugin.observers).toBeInstanceOf(Object);
-        expect(bindPlugin.updateStart).toBeInstanceOf(Function);
-        expect(bindPlugin.updateNb).toBeInstanceOf(Function);
-        expect(bindPlugin.refresh).toBeInstanceOf(Function);
-    });
-
 });
 
 describe("BindPluginInit", function () {
