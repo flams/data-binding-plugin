@@ -24,17 +24,17 @@ var Observable = require("watch-notify"),
     getNodes = require("get-nodes"),
     getDataset =  require("get-dataset");
 
-    function setAttribute(node, property, value) {
-        if (node instanceof HTMLElement) {
-            node[property] = value;
-            return true;
-        } else if (node instanceof SVGElement){
-            node.setAttribute(property, value);
-            return true;
-        } else {
-            return false;
-        }
+function setAttribute(node, property, value) {
+    if (node instanceof HTMLElement) {
+        node[property] = value;
+        return true;
+    } else if (node instanceof SVGElement){
+        node.setAttribute(property, value);
+        return true;
+    } else {
+        return false;
     }
+}
 
 /**
  * @class

@@ -1,6 +1,6 @@
 {
   "name": "data-binding-plugin",
-  "description": "The most powerful two way data-binding with virtualization. Highly optimized for performance and memory",
+  "description": "One of the most powerful two way data-binding tool with virtualization. Highly optimized for performance and memory",
   "version": "0.0.1",
   "homepage": "https://github.com/flams/data-binding-plugin",
   "licenses": [
@@ -33,7 +33,11 @@
     "test": "jasmine-node test/"
   },
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "observable-store": "0.0.3",
+    "seam": "0.0.3",
+    "jasmine-node": "~1.14.3"
+  },
   "dependencies": {
     "get-nodes": "0.0.1",
     "get-dataset": "0.0.1",
