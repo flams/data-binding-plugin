@@ -88,7 +88,6 @@ module.exports = function BindPluginConstructor($model, $bindings) {
      */
     this.setModel = function setModel(model) {
         _model = model;
-        return true;
     };
 
     /**

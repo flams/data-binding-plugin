@@ -12,51 +12,38 @@ var BindPlugin = require("../index"),
 	Store = require("observable-store"),
 	Plugins = require("seam");
 
-describe("BindPluginTest", function () {
-    it("should be a constructor function", function () {
-        expect(typeof BindPlugin).toBe("function");
-    });
+describe("data-binding-plugin", function () {
+	var bindPlugin = null,
+	model = new Store();
+
+	beforeEach(function () {
+		bindPlugin = new BindPlugin();
+	});
+
+	it("accepts a Store as a model", function () {
+		expect(bindPlugin.getModel()).toBeUndefined();
+		expect(bindPlugin.setModel(model)).toBe(true);
+		expect(bindPlugin.getModel()).toBe(model);
+	});
+
+	it("initializes the plugin with the given store", function () {
+		bindPlugin = new BindPlugin(model);
+		expect(bindPlugin.getModel()).toBe(model);
+	});
 });
 
-describe("BindPluginInit", function () {
-
-    var bindPlugin = null,
-    model = new Store();
-
-    beforeEach(function () {
-        bindPlugin = new BindPlugin();
-    });
-
-    it("should allow for setting model if it's a store", function () {
-        expect(bindPlugin.setModel()).toBe(false);
-        expect(bindPlugin.setModel({})).toBe(false);
-        expect(bindPlugin.setModel(model)).toBe(true);
-    });
-
-    it("should return the model", function () {
-        bindPlugin.setModel(model);
-        expect(bindPlugin.getModel()).toBe(model);
-    });
-
-    it("should directly init the plugin with the given store", function () {
-        bindPlugin = new BindPlugin(model);
-        expect(bindPlugin.getModel()).toBe(model);
-    });
-
-});
-
-describe("BindPluginBind", function () {
+describe("bind", function () {
 
     var plugins = null,
-    model = null,
-    dom = null,
-    bindPlugin = null;
+	    model = null,
+	    dom = null,
+	    bindPlugin = null;
 
     beforeEach(function () {
         dom = document.createElement("p");
 
         dom.setAttribute("data-model", "bind:innerHTML,content");
-        model =  new Store({content: "Olives is fun!"});
+        model = new Store({content: "Olives is fun!"});
         plugins = new Plugins();
         bindPlugin =  new BindPlugin(model);
         plugins.add("model", bindPlugin);
