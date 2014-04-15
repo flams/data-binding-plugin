@@ -313,7 +313,6 @@ describe("BindPluginItemRenderer", function () {
         '<p><span>title:</span><span data-model="bind:innerHTML,title"></span></p>';
 
         node = itemRenderer.create(0);
-        expect(node instanceof HTMLElement).toBe(true);
         expect(node.nodeName).toBe("DIV");
         expect(node.querySelectorAll("*").length).toBe(6);
 
