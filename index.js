@@ -17,11 +17,11 @@ var Observable = require("watch-notify"),
     getDataset =  require("get-dataset");
 
 function setAttribute(node, property, value) {
-    if ('ownerDocument' in node) {
-        node[property] = value;
-        return true;
-    } else if ('ownerSVGElement' in SVGElement){
+    if ('ownerSVGElement' in node) {
         node.setAttribute(property, value);
+        return true;
+    } else if ('ownerDocument' in node) {
+        node[property] = value;
         return true;
     } else {
         throw new Error("invalid element type");
