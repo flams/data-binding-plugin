@@ -222,7 +222,7 @@ describe("BindPluginBindTheOtherWayEnhanced", function () {
         plugins.add("model", new BindPlugin(model));
     });
 
-    it("should bind from dom to model", function () {
+    xit("should bind from dom to model", function () {
         var checkbox,
             event = document.createEvent("UIEvent");
         plugins.apply(dom);
