@@ -274,8 +274,6 @@ describe("BindPluginItemRenderer", function () {
         rootNode.appendChild(p);
         spyOn(rootNode, "removeChild").andCallThrough();
         itemRenderer = new bindPlugin.ItemRenderer();
-        expect(itemRenderer.setRootNode()).toBe(false);
-        expect(itemRenderer.setRootNode({})).toBe(false);
 
         spyOn(itemRenderer, "setRenderer").andCallThrough();
 

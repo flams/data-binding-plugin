@@ -381,8 +381,12 @@ module.exports = function BindPluginConstructor($model, $bindings) {
             }
         };
 
-        this.setPlugins($plugins);
-        this.setRootNode($rootNode);
+        if ($plugins) {
+            this.setPlugins($plugins);
+        }
+        if ($rootNode) {
+            this.setRootNode($rootNode);
+        }
     };
 
     /**
