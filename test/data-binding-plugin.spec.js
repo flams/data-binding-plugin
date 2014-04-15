@@ -11,27 +11,27 @@ require("quick-dom");
 GLOBAL.SVGElement = document.createElementNS("http://www.w3.org/2000/svg", "ellipse").constructor;
 GLOBAL.HTMLElement = document.body.constructor;
 
-var BindPlugin = require("../index"),
+var DataBindingPlugin = require("../index"),
 	Store = require("observable-store"),
 	Plugins = require("seam");
 
 describe("data-binding-plugin", function () {
-	var bindPlugin = null,
+	var dataBindingPlugin = null,
 	model = new Store();
 
 	beforeEach(function () {
-		bindPlugin = new BindPlugin();
+		dataBindingPlugin = new DataBindingPlugin();
 	});
 
 	it("accepts a Store as a model", function () {
-		expect(bindPlugin.getModel()).toBeUndefined();
-		bindPlugin.setModel(model);
-		expect(bindPlugin.getModel()).toBe(model);
+		expect(dataBindingPlugin.getModel()).toBeUndefined();
+		dataBindingPlugin.setModel(model);
+		expect(dataBindingPlugin.getModel()).toBe(model);
 	});
 
 	it("initializes the plugin with the given store", function () {
-		bindPlugin = new BindPlugin(model);
-		expect(bindPlugin.getModel()).toBe(model);
+		dataBindingPlugin = new DataBindingPlugin(model);
+		expect(dataBindingPlugin.getModel()).toBe(model);
 	});
 });
 
@@ -40,7 +40,7 @@ describe("bind", function () {
     var plugins = null,
 	    model = null,
 	    dom = null,
-	    bindPlugin = null;
+	    dataBindingPlugin = null;
 
     beforeEach(function () {
         dom = document.createElement("p");
@@ -48,8 +48,8 @@ describe("bind", function () {
         dom.setAttribute("data-model", "bind:innerHTML,content");
         model = new Store({content: "Olives is fun!"});
         plugins = new Plugins();
-        bindPlugin =  new BindPlugin(model);
-        plugins.add("model", bindPlugin);
+        dataBindingPlugin =  new DataBindingPlugin(model);
+        plugins.add("model", dataBindingPlugin);
     });
 
     xit("should link the model and the dom node with bind", function () {
@@ -59,8 +59,8 @@ describe("bind", function () {
         model.set("content", "Olives is cool!");
 
         expect(dom.innerHTML).toBe("Olives is cool!");
-        expect(Array.isArray(bindPlugin.observers.content)).toBe(true);
-        expect(model.getValueObservable().hasObserver(bindPlugin.observers.content[0])).toBe(true);
+        expect(Array.isArray(dataBindingPlugin.observers.content)).toBe(true);
+        expect(model.getValueObservable().hasObserver(dataBindingPlugin.observers.content[0])).toBe(true);
 
         expect(DomUtils.setAttribute.wasCalled).toBe(true);
         expect(DomUtils.setAttribute.mostRecentCall.args[0]).toBe(dom);
@@ -110,7 +110,7 @@ describe("bind", function () {
 
 });
 
-describe("BindPluginBindTheOtherWay", function () {
+describe("DataBindingPluginBindTheOtherWay", function () {
 
     var plugins = null,
         model = null,
@@ -121,7 +121,7 @@ describe("BindPluginBindTheOtherWay", function () {
         dom.setAttribute("data-model", "bind:checked,bool");
         model = new Store({bool:false});
         plugins = new Plugins();
-        plugins.add("model", new BindPlugin(model));
+        plugins.add("model", new DataBindingPlugin(model));
     });
 
     it("should update the model on dom change", function () {
@@ -157,7 +157,7 @@ describe("BindPluginBindTheOtherWay", function () {
 });
 
 
-describe("BindPluginBindEnhanced", function () {
+describe("DataBindingPluginBindEnhanced", function () {
 
     var plugins = null,
     model = null,
@@ -179,7 +179,7 @@ describe("BindPluginBindEnhanced", function () {
             }
         });
         plugins = new Plugins();
-        plugins.add("model", new BindPlugin(model));
+        plugins.add("model", new DataBindingPlugin(model));
     });
 
     it("should also work with complex data", function () {
@@ -198,7 +198,7 @@ describe("BindPluginBindEnhanced", function () {
 
 });
 
-describe("BindPluginBindTheOtherWayEnhanced", function () {
+describe("DataBindingPluginBindTheOtherWayEnhanced", function () {
 
     var plugins = null,
     model = null,
@@ -219,7 +219,7 @@ describe("BindPluginBindTheOtherWayEnhanced", function () {
             }]);
 
         plugins = new Plugins();
-        plugins.add("model", new BindPlugin(model));
+        plugins.add("model", new DataBindingPlugin(model));
     });
 
     xit("should bind from dom to model", function () {
@@ -239,14 +239,14 @@ describe("BindPluginBindTheOtherWayEnhanced", function () {
 
 });
 
-describe("BindPluginItemRenderer", function () {
+describe("DataBindingPluginItemRenderer", function () {
 
-    var bindPlugin = null,
+    var dataBindingPlugin = null,
         plugins = null,
         rootNode = null;
 
     beforeEach(function () {
-        bindPlugin = new BindPlugin(new Store([0, 1, 2, 3, 4, 5]));
+        dataBindingPlugin = new DataBindingPlugin(new Store([0, 1, 2, 3, 4, 5]));
         plugins = {
             name: "model",
             apply: jasmine.createSpy()
@@ -255,11 +255,11 @@ describe("BindPluginItemRenderer", function () {
     });
 
     it("should provide an item renderer", function () {
-        expect(typeof bindPlugin.ItemRenderer).toBe("function");
+        expect(typeof dataBindingPlugin.ItemRenderer).toBe("function");
     });
 
     it("should set the node to render", function () {
-        var itemRenderer = new bindPlugin.ItemRenderer(),
+        var itemRenderer = new dataBindingPlugin.ItemRenderer(),
             div = document.createElement("div");
 
         expect(itemRenderer.setRenderer(div)).toBe(true);
@@ -273,7 +273,7 @@ describe("BindPluginItemRenderer", function () {
 
         rootNode.appendChild(p);
         spyOn(rootNode, "removeChild").andCallThrough();
-        itemRenderer = new bindPlugin.ItemRenderer();
+        itemRenderer = new dataBindingPlugin.ItemRenderer();
 
         spyOn(itemRenderer, "setRenderer").andCallThrough();
 
@@ -289,14 +289,14 @@ describe("BindPluginItemRenderer", function () {
     });
 
     it("shouldn't fail if rootNode has no children", function () {
-        var itemRenderer = new bindPlugin.ItemRenderer();
+        var itemRenderer = new dataBindingPlugin.ItemRenderer();
         expect(function () {
             itemRenderer.setRootNode(rootNode);
         }).not.toThrow();
     });
 
     it("should set plugins", function () {
-        var itemRenderer = new bindPlugin.ItemRenderer();
+        var itemRenderer = new dataBindingPlugin.ItemRenderer();
         expect(itemRenderer.setPlugins(plugins)).toBe(true);
         expect(itemRenderer.getPlugins()).toBe(plugins);
     });
@@ -307,7 +307,7 @@ describe("BindPluginItemRenderer", function () {
             node;
 
         rootNode.appendChild(div);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         div.innerHTML = '<p><span>date:</span><span data-model="bind:innerHTML,date"></span></p>' +
         '<p><span>title:</span><span data-model="bind:innerHTML,title"></span></p>';
@@ -327,7 +327,7 @@ describe("BindPluginItemRenderer", function () {
             item;
 
         rootNode.appendChild(ul);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
         item = itemRenderer.create(0);
 
         expect(plugins.apply.wasCalled).toBe(true);
@@ -340,7 +340,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(div);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         expect(itemRenderer.create(0)).not.toBe(div);
     });
@@ -350,7 +350,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(div);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         expect(itemRenderer.getRenderer()).toBe(div);
     });
@@ -360,7 +360,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(div);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         expect(itemRenderer.getPlugins()).toBe(plugins);
     });
@@ -370,19 +370,19 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(div);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
         expect(itemRenderer.getRootNode()).toBe(rootNode);
     });
 
     it("should have a function to get/set start", function () {
-        var itemRenderer = new bindPlugin.ItemRenderer();
+        var itemRenderer = new dataBindingPlugin.ItemRenderer();
         expect(itemRenderer.setStart(0)).toBe(0);
         expect(itemRenderer.setStart("5")).toBe(5);
         expect(itemRenderer.getStart()).toBe(5);
     });
 
     it("should have a function to get/set nb", function () {
-        var itemRenderer = new bindPlugin.ItemRenderer();
+        var itemRenderer = new dataBindingPlugin.ItemRenderer();
         expect(itemRenderer.setNb(0)).toBe(0);
         expect(itemRenderer.setNb("5")).toBe(5);
         expect(itemRenderer.getNb()).toBe(5);
@@ -395,7 +395,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(dom);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
         expect(typeof itemRenderer.items).toBe("object");
     });
 
@@ -405,7 +405,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(ul);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         item = itemRenderer.create(0);
         expect(itemRenderer.items[0]).toBe(item);
@@ -416,7 +416,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(dom);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
         spyOn(rootNode, "appendChild").andCallThrough();
         spyOn(itemRenderer, "create").andCallThrough();
 
@@ -437,7 +437,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(dom);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
         spyOn(itemRenderer, "create").andCallThrough();
 
         expect(itemRenderer.addItem(1)).toBe(true);
@@ -453,7 +453,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(dom);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         expect(itemRenderer.getNextItem(0)).toBeUndefined();
         itemRenderer.addItem(3);
@@ -467,7 +467,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(dom);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         itemRenderer.addItem(2);
         itemRenderer.addItem(0);
@@ -480,7 +480,7 @@ describe("BindPluginItemRenderer", function () {
         itemRenderer;
 
         rootNode.appendChild(dom);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         expect(function () {
             itemRenderer.addItem(-1);
@@ -495,7 +495,7 @@ describe("BindPluginItemRenderer", function () {
             item;
 
         rootNode.appendChild(dom);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
         spyOn(rootNode, "removeChild").andCallThrough();
 
         expect(itemRenderer.removeItem()).toBe(false);
@@ -519,7 +519,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(ul);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         item = itemRenderer.create(10);
         expect(item).toBeUndefined();
@@ -531,7 +531,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(item);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         spyOn(itemRenderer, "addItem").andCallThrough();
         spyOn(itemRenderer, "removeItem");
@@ -551,7 +551,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(item);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
         itemRenderer.setNb(3);
         itemRenderer.setStart(0);
         itemRenderer.render();
@@ -576,7 +576,7 @@ describe("BindPluginItemRenderer", function () {
             itemRenderer;
 
         rootNode.appendChild(item);
-        itemRenderer = new bindPlugin.ItemRenderer(plugins, rootNode);
+        itemRenderer = new dataBindingPlugin.ItemRenderer(plugins, rootNode);
 
         itemRenderer.setNb("*");
         itemRenderer.setStart(0);
@@ -584,7 +584,7 @@ describe("BindPluginItemRenderer", function () {
         // First rendering with the 6 elements
         itemRenderer.render();
         // Remove the first one
-        bindPlugin.getModel().del(0);
+        dataBindingPlugin.getModel().del(0);
         // And the rendering should be updated
         itemRenderer.render();
         // There are now 5 items
@@ -598,7 +598,7 @@ describe("BindPluginItemRenderer", function () {
         itemRenderer.removeItem.reset();
 
         // Deletes item 0, 1, 2
-        bindPlugin.getModel().alter("splice", 0, 3);
+        dataBindingPlugin.getModel().alter("splice", 0, 3);
         // which should remove 3 dom nodes
         itemRenderer.render();
 
@@ -610,8 +610,8 @@ describe("BindPluginItemRenderer", function () {
     });
 });
 
-describe("BindPluginForeach", function () {
-    var bindPlugin = null,
+describe("DataBindingPluginForeach", function () {
+    var dataBindingPlugin = null,
     model = null,
     dom = null,
     plugins = null;
@@ -623,9 +623,9 @@ describe("BindPluginForeach", function () {
         dom.innerHTML = '<li data-model="bind:innerHTML"></li>';
 
         model = new Store(["Olives", "is", "fun"]);
-        bindPlugin = new BindPlugin(model);
+        dataBindingPlugin = new DataBindingPlugin(model);
         plugins = new Plugins();
-        plugins.add("model", bindPlugin);
+        plugins.add("model", dataBindingPlugin);
     });
 
     it("should expand the node inside", function () {
@@ -674,15 +674,15 @@ describe("BindPluginForeach", function () {
     it("should remove the observers of the removed item", function () {
         var handler;
         plugins.apply(dom);
-        handler = bindPlugin.observers[2][0];
+        handler = dataBindingPlugin.observers[2][0];
         model.alter("pop");
         expect(model.getValueObservable().hasObserver(handler)).toBe(false);
-        expect(bindPlugin.observers[2]).toBeUndefined();
+        expect(dataBindingPlugin.observers[2]).toBeUndefined();
     });
 
     it("should not fail if the ItemRenderer is given a DOM that starts with a textnode", function () {
         dom.innerHTML = " \n \t\t <li></li>";
-        spyOn(bindPlugin, "ItemRenderer").andCallThrough();
+        spyOn(dataBindingPlugin, "ItemRenderer").andCallThrough();
         expect(function () {
             plugins.apply(dom);
         }).not.toThrow();
@@ -691,15 +691,15 @@ describe("BindPluginForeach", function () {
 
     it("should have a function for getting the item index in a store given a dom element", function () {
         plugins.apply(dom);
-        expect(bindPlugin.getItemIndex(document.createElement("li"))).toBe(false);
-        expect(bindPlugin.getItemIndex(dom.querySelector("li"))).toBe(0);
-        expect(bindPlugin.getItemIndex(dom.querySelectorAll("li")[2])).toBe(2);
+        expect(dataBindingPlugin.getItemIndex(document.createElement("li"))).toBe(false);
+        expect(dataBindingPlugin.getItemIndex(dom.querySelector("li"))).toBe(0);
+        expect(dataBindingPlugin.getItemIndex(dom.querySelectorAll("li")[2])).toBe(2);
     });
 });
 
-describe("BindPluginForeachEnhanced", function () {
+describe("DataBindingPluginForeachEnhanced", function () {
 
-    var bindPlugin = null,
+    var dataBindingPlugin = null,
     model = null,
     dataSet = null,
     dom = null,
@@ -728,17 +728,17 @@ describe("BindPluginForeachEnhanced", function () {
         }}
         ];
         model = new Store(dataSet);
-        bindPlugin = new BindPlugin(model);
+        dataBindingPlugin = new DataBindingPlugin(model);
 
         plugins = new Plugins();
-        plugins.add("model", bindPlugin);
+        plugins.add("model", dataBindingPlugin);
     });
 
     it("should expand and fill in with a complex object's values", function () {
         dom.innerHTML = '<li><em data-model="bind:innerHTML,value.date"></em><strong data-model="bind:innerHTML,value.title"></strong>' +
         '<span data-model="bind:innerHTML,value.body"></span></li>';
 
-        bindPlugin.foreach(dom);
+        dataBindingPlugin.foreach(dom);
         expect(dom.querySelectorAll("li").length).toBe(3);
         expect(dom.querySelectorAll("em")[0].innerHTML).toBe(dataSet[0].value.date);
         expect(dom.querySelectorAll("strong")[0].innerHTML).toBe(dataSet[0].value.title);
@@ -757,7 +757,7 @@ describe("BindPluginForeachEnhanced", function () {
         dom.innerHTML = '<li><em data-model="bind:innerHTML,value.date"></em><strong data-model="bind:innerHTML,value.title"></strong>' +
         '<span data-model="bind:innerHTML,value.body"></span></li>';
 
-        bindPlugin.foreach(dom);
+        dataBindingPlugin.foreach(dom);
 
         model.set(1, {
             value: {
@@ -774,9 +774,9 @@ describe("BindPluginForeachEnhanced", function () {
 
 });
 
-describe("BindPluginNestedForeach", function () {
+describe("DataBindingPluginNestedForeach", function () {
 
-    var bindPlugin = null,
+    var dataBindingPlugin = null,
     model = null,
     dom = null,
     plugins = null;
@@ -795,15 +795,15 @@ describe("BindPluginNestedForeach", function () {
             plugins: ["Store", "Observable", "StateMachine"]
         }, {
             name:"olives",
-            plugins: ["OObject", "BindPlugin", "Plugins"]
+            plugins: ["OObject", "DataBindingPlugin", "Plugins"]
         }]);
-        bindPlugin = new BindPlugin(model);
+        dataBindingPlugin = new DataBindingPlugin(model);
         plugins = new Plugins();
-        plugins.add("model", bindPlugin);
+        plugins.add("model", dataBindingPlugin);
     });
 
     it("should render nested foreach", function () {
-        bindPlugin.foreach(dom, "fwks");
+        dataBindingPlugin.foreach(dom, "fwks");
         // Nested for each are not supported yet. Should be done by April
     });
 
@@ -811,9 +811,9 @@ describe("BindPluginNestedForeach", function () {
 });
 
 
-describe("BindPluginForeachLimits", function () {
+describe("DataBindingPluginForeachLimits", function () {
 
-    var bindPlugin = null,
+    var dataBindingPlugin = null,
         model = null,
         dataSet = null,
         dom = null,
@@ -825,14 +825,14 @@ describe("BindPluginForeachLimits", function () {
 
         dataSet = ["Olives", "is", "cool", "it handles", "pagination", "for me"];
         model = new Store(dataSet);
-        bindPlugin = new BindPlugin(model);
+        dataBindingPlugin = new DataBindingPlugin(model);
 
         plugins = new Plugins();
-        plugins.add("model", bindPlugin);
+        plugins.add("model", dataBindingPlugin);
     });
 
     it("should limit the list length to the given params", function () {
-        bindPlugin.foreach(dom, "id", 1, 3);
+        dataBindingPlugin.foreach(dom, "id", 1, 3);
         expect(dom.querySelectorAll("li").length).toBe(3);
         expect(dom.querySelectorAll("li")[0].innerHTML).toBe("is");
         expect(dom.querySelectorAll("li")[1].innerHTML).toBe("cool");
@@ -840,20 +840,20 @@ describe("BindPluginForeachLimits", function () {
     });
 
     it("should not fail with outbounds values", function () {
-        bindPlugin.foreach(dom, "id", -1, 7);
+        dataBindingPlugin.foreach(dom, "id", -1, 7);
         expect(dom.querySelectorAll("li").length).toBe(6);
         expect(dom.querySelectorAll("li")[0].innerHTML).toBe("Olives");
         expect(dom.querySelectorAll("li")[5].innerHTML).toBe("for me");
     });
 
     it("should not add a new item if it's out of the limits", function () {
-        bindPlugin.foreach(dom, "id", 2, 3);
+        dataBindingPlugin.foreach(dom, "id", 2, 3);
         model.alter("push", "new item out of the limits");
         expect(dom.querySelectorAll("li").length).toBe(3);
     });
 
     it("should not fail if an item is removed", function() {
-        bindPlugin.foreach(dom, "id", 2, 3);
+        dataBindingPlugin.foreach(dom, "id", 2, 3);
         model.alter("push", "new item out of the limits");
         model.alter("pop");
         expect(dom.querySelectorAll("li").length).toBe(3);
@@ -863,28 +863,28 @@ describe("BindPluginForeachLimits", function () {
 
     it("should store the item renderers according to their id", function () {
         var itemRenderer;
-        spyOn(bindPlugin, "setItemRenderer").andCallThrough();
+        spyOn(dataBindingPlugin, "setItemRenderer").andCallThrough();
 
-        bindPlugin.foreach(dom, "id", 2, 3);
-        expect(bindPlugin.setItemRenderer.mostRecentCall.args[0]).toBe("id");
-        itemRenderer = bindPlugin.setItemRenderer.mostRecentCall.args[1];
-        expect(itemRenderer instanceof bindPlugin.ItemRenderer).toBe(true);
-        expect(bindPlugin.getItemRenderer("id")).toBe(itemRenderer);
+        dataBindingPlugin.foreach(dom, "id", 2, 3);
+        expect(dataBindingPlugin.setItemRenderer.mostRecentCall.args[0]).toBe("id");
+        itemRenderer = dataBindingPlugin.setItemRenderer.mostRecentCall.args[1];
+        expect(itemRenderer instanceof dataBindingPlugin.ItemRenderer).toBe(true);
+        expect(dataBindingPlugin.getItemRenderer("id")).toBe(itemRenderer);
     });
 
     it("should save the store as default if no id is given", function () {
         var itemRenderer;
-        spyOn(bindPlugin, "setItemRenderer").andCallThrough();
+        spyOn(dataBindingPlugin, "setItemRenderer").andCallThrough();
 
-        bindPlugin.foreach(dom);
-        itemRenderer = bindPlugin.setItemRenderer.mostRecentCall.args[1];
-        expect(bindPlugin.getItemRenderer("default")).toBe(itemRenderer);
+        dataBindingPlugin.foreach(dom);
+        itemRenderer = dataBindingPlugin.setItemRenderer.mostRecentCall.args[1];
+        expect(dataBindingPlugin.getItemRenderer("default")).toBe(itemRenderer);
     });
 
     it("should allow for multiple foreaches", function () {
         var dom2 = dom.cloneNode(true);
-        bindPlugin.foreach(dom, "id", 1, 3);
-        bindPlugin.foreach(dom2, "id2", 3, 3);
+        dataBindingPlugin.foreach(dom, "id", 1, 3);
+        dataBindingPlugin.foreach(dom2, "id2", 3, 3);
 
         expect(dom2.querySelectorAll("li").length).toBe(3);
         expect(dom.querySelectorAll("li")[0].innerHTML).toBe("is");
@@ -893,30 +893,30 @@ describe("BindPluginForeachLimits", function () {
 
     it("should update the foreach start", function () {
         var itemRenderer;
-        bindPlugin.foreach(dom, "id", 1, 3);
-        itemRenderer = bindPlugin.getItemRenderer("id");
-        expect(bindPlugin.updateStart("fakeId")).toBe(false);
-        expect(bindPlugin.updateStart("id", 2)).toBe(true);
+        dataBindingPlugin.foreach(dom, "id", 1, 3);
+        itemRenderer = dataBindingPlugin.getItemRenderer("id");
+        expect(dataBindingPlugin.updateStart("fakeId")).toBe(false);
+        expect(dataBindingPlugin.updateStart("id", 2)).toBe(true);
         expect(itemRenderer.getStart()).toBe(2);
     });
 
     it("should update the nb of items displayed by foreach", function () {
         var itemRenderer;
-        bindPlugin.foreach(dom, "id", 1, 3);
-        itemRenderer = bindPlugin.getItemRenderer("id");
-        expect(bindPlugin.updateNb("fakeId")).toBe(false);
-        expect(bindPlugin.updateNb("id", 2)).toBe(true);
+        dataBindingPlugin.foreach(dom, "id", 1, 3);
+        itemRenderer = dataBindingPlugin.getItemRenderer("id");
+        expect(dataBindingPlugin.updateNb("fakeId")).toBe(false);
+        expect(dataBindingPlugin.updateNb("id", 2)).toBe(true);
         expect(itemRenderer.getNb()).toBe(2);
     });
 
     it("should have a function to call itemRenderer's render", function () {
         var itemRenderer;
-        bindPlugin.foreach(dom, "id", 1, 3);
-        itemRenderer = bindPlugin.getItemRenderer("id");
+        dataBindingPlugin.foreach(dom, "id", 1, 3);
+        itemRenderer = dataBindingPlugin.getItemRenderer("id");
         spyOn(itemRenderer, "render");
 
-        expect(bindPlugin.refresh("fakeid")).toBe(false);
-        expect(bindPlugin.refresh("id")).toBe(true);
+        expect(dataBindingPlugin.refresh("fakeid")).toBe(false);
+        expect(dataBindingPlugin.refresh("id")).toBe(true);
         expect(itemRenderer.render.wasCalled).toBe(true);
     });
 
@@ -924,16 +924,16 @@ describe("BindPluginForeachLimits", function () {
 
 describe("ModelForm", function () {
 
-    var bindPlugin = null,
+    var dataBindingPlugin = null,
     plugins = null,
     model = null,
     form = null;
 
     beforeEach(function () {
         model = new Store();
-        bindPlugin = new BindPlugin(model);
+        dataBindingPlugin = new DataBindingPlugin(model);
         plugins = new Plugins();
-        plugins.add("model", bindPlugin);
+        plugins.add("model", dataBindingPlugin);
         form = document.createElement("form");
         form.innerHTML = '<p><label>Firstname: </label><input type="text" name="firstname" value="olivier" /></p>' +
         '<p><label>Lastname: </label><input type="text" name="lastname" value="wietrich" /></p>' +
@@ -948,22 +948,22 @@ describe("ModelForm", function () {
         input.type = "text";
         input.name = "firstname";
         input.value = "olivier";
-        expect(bindPlugin.set(document.createElement("input"))).toBe(false);
-        expect(bindPlugin.set(input)).toBe(true);
+        expect(dataBindingPlugin.set(document.createElement("input"))).toBe(false);
+        expect(dataBindingPlugin.set(input)).toBe(true);
         expect(model.get("firstname")).toBe("olivier");
     });
 
     it("should accept only form nodes", function () {
-        expect(bindPlugin.form()).toBe(false);
-        expect(bindPlugin.form(document.createElement("div"))).toBe(false);
-        expect(bindPlugin.form(form)).toBe(true);
+        expect(dataBindingPlugin.form()).toBe(false);
+        expect(dataBindingPlugin.form(document.createElement("div"))).toBe(false);
+        expect(dataBindingPlugin.form(form)).toBe(true);
     });
 
     it("should make form listen to submit", function () {
         spyOn(form, "addEventListener").andCallThrough();
-        spyOn(bindPlugin, "set");
+        spyOn(dataBindingPlugin, "set");
 
-        bindPlugin.form(form);
+        dataBindingPlugin.form(form);
 
         expect(form.addEventListener.wasCalled).toBe(true);
         expect(form.addEventListener.mostRecentCall.args[0]).toBe("submit");
@@ -977,22 +977,22 @@ describe("ModelForm", function () {
                 preventDefault: jasmine.createSpy()
         };
         spyOn(form, "addEventListener").andCallThrough();
-        spyOn(bindPlugin, "set");
+        spyOn(dataBindingPlugin, "set");
 
-        bindPlugin.form(form);
+        dataBindingPlugin.form(form);
         func = form.addEventListener.mostRecentCall.args[1];
 
         func(event);
 
-        expect(bindPlugin.set.wasCalled).toBe(true);
-        expect(bindPlugin.set.callCount).toBe(4);
+        expect(dataBindingPlugin.set.wasCalled).toBe(true);
+        expect(dataBindingPlugin.set.callCount).toBe(4);
         expect(event.preventDefault.wasCalled).toBe(true);
     });
 });
 
-describe("BindPluginPlugins", function () {
+describe("DataBindingPluginPlugins", function () {
 
-    var bindPlugin = null,
+    var dataBindingPlugin = null,
         model = null,
         newBindings = null,
         dom = null;
@@ -1002,65 +1002,65 @@ describe("BindPluginPlugins", function () {
         newBindings = {
             toggleClass: jasmine.createSpy()
         };
-        bindPlugin = new BindPlugin(model);
-        bindPlugin.plugins = {}; bindPlugin.plugins.name = "model";
+        dataBindingPlugin = new DataBindingPlugin(model);
+        dataBindingPlugin.plugins = {}; dataBindingPlugin.plugins.name = "model";
         dom = document.createElement("div");
     });
 
     it("should add a new binding", function () {
-        expect(bindPlugin.addBinding("")).toBe(false);
-        expect(bindPlugin.addBinding("", {})).toBe(false);
-        expect(bindPlugin.addBinding("", function () {})).toBe(false);
-        expect(bindPlugin.addBinding("toggleClass", newBindings.toggleClass)).toBe(true);
-        expect(bindPlugin.getBinding("toggleClass")).toBe(newBindings.toggleClass);
+        expect(dataBindingPlugin.addBinding("")).toBe(false);
+        expect(dataBindingPlugin.addBinding("", {})).toBe(false);
+        expect(dataBindingPlugin.addBinding("", function () {})).toBe(false);
+        expect(dataBindingPlugin.addBinding("toggleClass", newBindings.toggleClass)).toBe(true);
+        expect(dataBindingPlugin.getBinding("toggleClass")).toBe(newBindings.toggleClass);
     });
 
     it("should add multiple bindings at once", function () {
-        spyOn(bindPlugin, "addBinding").andCallThrough();
-        bindPlugin.addBindings(newBindings);
-        expect(bindPlugin.addBinding.wasCalled).toBe(true);
-        expect(bindPlugin.addBinding.mostRecentCall.args[0]).toBe("toggleClass");
-        expect(bindPlugin.addBinding.mostRecentCall.args[1]).toBe(newBindings.toggleClass);
+        spyOn(dataBindingPlugin, "addBinding").andCallThrough();
+        dataBindingPlugin.addBindings(newBindings);
+        expect(dataBindingPlugin.addBinding.wasCalled).toBe(true);
+        expect(dataBindingPlugin.addBinding.mostRecentCall.args[0]).toBe("toggleClass");
+        expect(dataBindingPlugin.addBinding.mostRecentCall.args[1]).toBe(newBindings.toggleClass);
     });
 
     it("should tell if binding exists", function () {
-        bindPlugin.addBindings(newBindings);
-        expect(bindPlugin.hasBinding("toggleClass")).toBe(true);
-        expect(bindPlugin.hasBinding("valueOf")).toBe(false);
+        dataBindingPlugin.addBindings(newBindings);
+        expect(dataBindingPlugin.hasBinding("toggleClass")).toBe(true);
+        expect(dataBindingPlugin.hasBinding("valueOf")).toBe(false);
     });
 
     it("should execute binding", function () {
-        expect(bindPlugin.execBinding(dom, "nop", false)).toBe(false);
-        bindPlugin.addBindings(newBindings);
-        expect(bindPlugin.execBinding(dom, "toggleClass", false, "otherParam")).toBe(true);
+        expect(dataBindingPlugin.execBinding(dom, "nop", false)).toBe(false);
+        dataBindingPlugin.addBindings(newBindings);
+        expect(dataBindingPlugin.execBinding(dom, "toggleClass", false, "otherParam")).toBe(true);
         expect(newBindings.toggleClass.mostRecentCall.args[0]).toBe(false);
         expect(newBindings.toggleClass.mostRecentCall.args[1]).toBe("otherParam");
         expect(newBindings.toggleClass.mostRecentCall.object).toBe(dom);
     });
 
     it("should execute new bindings", function () {
-        bindPlugin.addBindings(newBindings);
-        spyOn(bindPlugin, "execBinding");
-        bindPlugin.bind(dom, "toggleClass","property", "otherParam");
+        dataBindingPlugin.addBindings(newBindings);
+        spyOn(dataBindingPlugin, "execBinding");
+        dataBindingPlugin.bind(dom, "toggleClass","property", "otherParam");
         model.set("property", true);
-        expect(bindPlugin.execBinding.wasCalled).toBe(true);
-        expect(bindPlugin.execBinding.mostRecentCall.args[0]).toBe(dom);
-        expect(bindPlugin.execBinding.mostRecentCall.args[1]).toBe("toggleClass");
-        expect(bindPlugin.execBinding.mostRecentCall.args[2]).toBe(true);
-        expect(bindPlugin.execBinding.mostRecentCall.args[3]).toBe("otherParam");
+        expect(dataBindingPlugin.execBinding.wasCalled).toBe(true);
+        expect(dataBindingPlugin.execBinding.mostRecentCall.args[0]).toBe(dom);
+        expect(dataBindingPlugin.execBinding.mostRecentCall.args[1]).toBe("toggleClass");
+        expect(dataBindingPlugin.execBinding.mostRecentCall.args[2]).toBe(true);
+        expect(dataBindingPlugin.execBinding.mostRecentCall.args[3]).toBe("otherParam");
     });
 
     it("should not double way bind the plugins", function () {
-        bindPlugin.addBindings(newBindings);
+        dataBindingPlugin.addBindings(newBindings);
         spyOn(dom, "addEventListener").andCallThrough();
-        bindPlugin.bind(dom, "toggleClass","property");
+        dataBindingPlugin.bind(dom, "toggleClass","property");
         expect(dom.addEventListener.wasCalled).toBe(false);
     });
 
-    it("should add bindings at BindPlugin init", function () {
-        var bindPlugin = new BindPlugin(model, newBindings);
+    it("should add bindings at DataBindingPlugin init", function () {
+        var dataBindingPlugin = new DataBindingPlugin(model, newBindings);
 
-        expect(bindPlugin.getBinding("toggleClass")).toBe(newBindings.toggleClass);
+        expect(dataBindingPlugin.getBinding("toggleClass")).toBe(newBindings.toggleClass);
     });
 
 });
