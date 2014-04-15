@@ -691,7 +691,6 @@ describe("BindPluginForeach", function () {
 
     it("should have a function for getting the item index in a store given a dom element", function () {
         plugins.apply(dom);
-        expect(bindPlugin.getItemIndex()).toBe(false);
         expect(bindPlugin.getItemIndex(document.createElement("li"))).toBe(false);
         expect(bindPlugin.getItemIndex(dom.querySelector("li"))).toBe(0);
         expect(bindPlugin.getItemIndex(dom.querySelectorAll("li")[2])).toBe(2);
