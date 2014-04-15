@@ -1017,7 +1017,7 @@ describe("BindPluginPlugins", function () {
 
     it("should add multiple bindings at once", function () {
         spyOn(bindPlugin, "addBinding").andCallThrough();
-        expect(bindPlugin.addBindings(newBindings)).toBe(true);
+        bindPlugin.addBindings(newBindings);
         expect(bindPlugin.addBinding.wasCalled).toBe(true);
         expect(bindPlugin.addBinding.mostRecentCall.args[0]).toBe("toggleClass");
         expect(bindPlugin.addBinding.mostRecentCall.args[1]).toBe(newBindings.toggleClass);
