@@ -1,7 +1,7 @@
 {
   "name": "data-binding-plugin",
   "description": "One of the most powerful two way data-binding tool with virtualization. Highly optimized for performance and memory",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/flams/data-binding-plugin",
   "licenses": [
     {
