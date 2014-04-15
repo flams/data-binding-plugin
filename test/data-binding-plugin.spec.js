@@ -277,7 +277,7 @@ describe("BindPluginItemRenderer", function () {
 
         spyOn(itemRenderer, "setRenderer").andCallThrough();
 
-        expect(itemRenderer.setRootNode(rootNode)).toBe(true);
+        itemRenderer.setRootNode(rootNode);
         expect(itemRenderer.getRootNode()).toBe(rootNode);
 
         expect(itemRenderer.setRenderer.wasCalled).toBe(true);
