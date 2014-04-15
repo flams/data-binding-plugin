@@ -8,6 +8,9 @@
 
 require("quick-dom");
 
+GLOBAL.SVGElement = document.createElementNS("http://www.w3.org/2000/svg", "ellipse").constructor;
+GLOBAL.HTMLElement = document.body.constructor;
+
 var BindPlugin = require("../index"),
 	Store = require("observable-store"),
 	Plugins = require("seam");
@@ -22,7 +25,7 @@ describe("data-binding-plugin", function () {
 
 	it("accepts a Store as a model", function () {
 		expect(bindPlugin.getModel()).toBeUndefined();
-		expect(bindPlugin.setModel(model)).toBe(true);
+		bindPlugin.setModel(model);
 		expect(bindPlugin.getModel()).toBe(model);
 	});
 

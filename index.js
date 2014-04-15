@@ -24,14 +24,14 @@ var Observable = require("watch-notify"),
     getDataset =  require("get-dataset");
 
 function setAttribute(node, property, value) {
-    if (node instanceof HTMLElement) {
+    if ('ownerDocument' in node) {
         node[property] = value;
         return true;
-    } else if (node instanceof SVGElement){
+    } else if ('ownerSVGElement' in SVGElement){
         node.setAttribute(property, value);
         return true;
     } else {
-        return false;
+        throw new Error("invalid element type");
     }
 }
 
@@ -346,7 +346,7 @@ module.exports = function BindPluginConstructor($model, $bindings) {
         this.render = function render() {
             // If the number of items to render is all (*)
             // Then get the number of items
-            var _tmpNb = _nb == "*" ? _model.getNbItems() : _nb;
+            var _tmpNb = _nb == "*" ? _model.count() : _nb;
 
             // This will store the items to remove
             var marked = [];
