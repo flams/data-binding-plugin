@@ -29,7 +29,7 @@ var DataBinding = require("data-binding-plugin");
 
 The data-binding plugin binds the data from a model with an HTML view.
 
-Initiliaze data-binding:
+Initialize data-binding:
 
 ```js
 var dataBinding = new DataBinding();
@@ -49,6 +49,24 @@ Give the store to the data-binding plugin:
 ```js
 dataBinding.setModel(store);
 ```
+
+The data-binding is a Seam plugin, so we need to new up Seam and add the plugin to it:
+
+
+```js
+var Seam = require("seam");
+var seam = new Seam();
+
+seam.add("bind", dataBinding);
+```
+
+Now we can define the view:
+
+```html
+
+```
+
+
 
 
 LICENSE
