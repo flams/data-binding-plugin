@@ -26,7 +26,30 @@ Require data-binding-plugin:
 ```js
 var DataBinding = require("data-binding-plugin");
 ```
-documentation is coming...
+
+The data-binding plugin binds the data from a model with an HTML view.
+
+Initiliaze data-binding:
+
+```js
+var dataBinding = new DataBinding();
+```
+
+Give it a model (an observable-store)
+
+```js
+var Store = require("observable-store");
+var store = new Store({
+    name: "data-binding"
+});
+```
+
+Give the store to the data-binding plugin:
+
+```js
+dataBinding.setModel(store);
+```
+
 
 LICENSE
 =======
