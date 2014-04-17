@@ -125,7 +125,7 @@ formatDate: function(date, timezone, ...) {
 ...
 ```
 
-
+more doc is coming...
 
 
 LICENSE
