@@ -60,11 +60,24 @@ var seam = new Seam();
 seam.add("bind", dataBinding);
 ```
 
-Now we can define the view:
+Now we can define the view. Whenever the name property is updated in the store, the innerHTML property of the DIV element is set with the value.
 
 ```html
-
+<div data-bind="bind: innerHTML, name"> </div>
 ```
+
+And apply the data-binding plugin to the view.
+
+```js
+seam.apply(document.querySelector('[data-bind]'));
+```
+
+When the store is updated, the view will reflect the change:
+
+```js
+store.set('name', 'data-binding-plugin');
+```
+
 
 
 
