@@ -78,6 +78,52 @@ When the store is updated, the view will reflect the change:
 store.set('name', 'data-binding-plugin');
 ```
 
+The data-binding plugin can update any property. This will update the className, which in turn sets the class attribute of the div element.
+
+```html
+<div data-bind="bind: className, class"></div>
+```
+
+Of course, a template can have several bindings:
+
+```html
+<div data-bind="bind: className, gender">
+    <span data-bind="bind: innerText, name"></span>
+    <span data-bind="bind: innerText, email"></span>
+</div>
+```
+
+We can also have formatter. Instead of giving a className, we can specify a formatter function:
+
+
+```html
+<div data-bind="bind: formatDate, date"></div>
+```
+
+And when initializing the plugin, we add it a list of formatters:
+
+```js
+var dataBinding = new DataBinding(model, {
+    formatDate: function (date) {
+        // this is the dom element
+        this.innerHTML = formatDate(date);
+    }
+});
+```
+
+Several parameters can be given to the formatter:
+
+```html
+<div data-bind="bind: formatDate, date, BST, ..."></div>
+```
+
+```js
+...
+formatDate: function(date, timezone, ...) {
+    //...
+}
+...
+```
 
 
 
