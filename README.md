@@ -125,7 +125,31 @@ formatDate: function(date, timezone, ...) {
 ...
 ```
 
-more doc is coming...
+Data-binding plugin can also repeat a template if the model is an array:
+
+```html
+<ul data-bind="foreach">
+    <li>
+        <span data-bind="bind: innerText, firstname"></span>
+        <span data-bind="bind: innerText, lastname"></span>
+    </li>
+</ul>
+```
+
+With an array-based observable-store:
+
+```js
+var store = new Store([{
+    firstname: 'Mia',
+    lastname: 'Wallace'
+},
+{
+    firstname: 'John',
+    lastname: 'McLane'
+}]);
+```
+
+And when adding/updating/removing an item in the store, the DOM will be updated.
 
 
 LICENSE
