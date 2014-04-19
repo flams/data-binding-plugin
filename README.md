@@ -8,7 +8,7 @@ One of the most powerful two-way data-binding tools available. It has a bunch of
 - The rendering of lists of items can be virtualized so that not all of the items get rendered, improving performance and memory consumption.
 - It's so fast that it's the perfect tool for mobile devices too.
 - It's extensively tested to prevent memory leaks.
-- It's really to use as it's a plugin for [Seam](https://github.com/flams/seam), which is the simplest way to attach behavior to an HTML template.
+- It's a [Seam](https://github.com/flams/seam) plugin, so it's easy to use.
 - It even works with SVGs!
 
 Installation
@@ -20,6 +20,12 @@ npm install data-binding-plugin
 
 How to use
 ==========
+
+data-binding-plugin requires three things:
+
+ - An observable data store, so that the data-binding plugin can listen to changes events
+ - An HTML/SVG template that declares where the data will be rendered
+ - [Seam](https://github.com/flams/seam) that will make understand the declarative bindings for data-binding
 
 Require data-binding-plugin:
 
