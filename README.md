@@ -151,6 +151,30 @@ var store = new Store([{
 
 And when adding/updating/removing an item in the store, the DOM will be updated.
 
+Finally, data-binding plugin comes with a virtualization option which allows you to render only parts of a longer list of items, so that only what's visible is actually rendered to save memory and improve performance:
+
+
+```html
+<ul data-bind="foreach: list, 0, 10">
+    <li>
+        <span data-bind="bind: innerText, firstname"></span>
+        <span data-bind="bind: innerText, lastname"></span>
+    </li>
+</ul>
+```
+
+This list will render 10 items from index 0, and will be called 'list'. In JavaScript, we can instruct the list to display the next items:
+
+```js
+var itemRenderer = dataBinding.getItemRenderer('list');
+// start from index 10
+itemRenderer.setStart(10);
+// display 20 items instead of 10
+itemRenderer.setNb(20);
+// rerender the items
+itemRenderer.render();
+```
+
 
 LICENSE
 =======
