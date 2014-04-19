@@ -11,6 +11,11 @@ One of the most powerful two-way data-binding tools available. It has a bunch of
 - It's a [Seam](https://github.com/flams/seam) plugin, so it's easy to use.
 - It even works with SVGs!
 
+Live example
+============
+
+There's a virtualized grid displaying 1,000,000 items showcased [here](https://github.com/podefr/data-binding-virtualised-grid)
+
 Installation
 ============
 
