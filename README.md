@@ -14,7 +14,7 @@ One of the most powerful two-way data-binding tools available. It has a bunch of
 Live example
 ============
 
-There's a virtualized grid displaying 1,000,000 items showcased [here](https://github.com/podefr/data-binding-virtualised-grid)
+There's a virtualized grid displaying 1,000,000 items showcased [here](https://github.com/podefr/data-binding-virtualized-grid)
 
 Installation
 ============
