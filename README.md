@@ -186,6 +186,14 @@ itemRenderer.setNb(20);
 itemRenderer.render();
 ```
 
+CHANGELOG
+=========
+
+### 0.0.6 - 13 SEP 2015
+
+* Update all dependencies to latest version
+* Update all dev dependencies
+* Fix license field in package.json
 
 LICENSE
 =======

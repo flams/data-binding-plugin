@@ -1,14 +1,9 @@
 {
   "name": "data-binding-plugin",
   "description": "One of the most powerful two way data-binding tool with virtualization. Highly optimized for performance and memory",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "homepage": "https://github.com/flams/data-binding-plugin",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/flams/data-binding-plugin/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "files": [
     "LICENSE",
     "index.js"
@@ -35,19 +30,19 @@
   },
   "main": "index.js",
   "devDependencies": {
-    "observable-store": "0.0.3",
+    "observable-store": "0.0.5",
     "seam": "0.0.3",
     "jasmine-node": "~1.14.3",
-    "quick-dom": "0.0.1"
+    "quick-dom": "0.0.2"
   },
   "dependencies": {
     "get-nodes": "0.0.1",
     "get-dataset": "0.0.1",
     "compare-numbers": "0.0.1",
-    "simple-loop": "0.0.2",
-    "nested-property": "0.0.2",
-    "watch-notify": "0.0.2",
-    "get-closest": "0.0.1",
+    "simple-loop": "0.0.4",
+    "nested-property": "0.0.6",
+    "watch-notify": "0.0.3",
+    "get-closest": "0.0.2",
     "to-array": "~0.1.4"
   }
 }
